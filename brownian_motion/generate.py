@@ -78,13 +78,23 @@ class Brownian():
 
 def plot_stock_price(mu, sigma):
     """
-    Plots stock price
+    Plots stock price for multiple scenarios
 
-    :param mu:
-    :param sigma:
-    :return:
+    :return: plot stock
     """
+    plt.figure(figsize=(9, 4))
+    for i in range(5):
+        plt.plot(b.stock_price(mu=mu, sigma=sigma, dt=0.1))
+    plt.legend(['Scenario-' + str(i) for i in range(1, 6)],
+               loc='upper left')
+    plt.hlines(y=100, xmin=0, xmax=520, linestyle='--', color='k')
+    plt.title("Stock price simulation")
+    plt.show()
 
+
+
+# part 1
+# 1D
 b = Brownian()
 
 # generation motion by random_walk
@@ -103,4 +113,27 @@ plt.title('generation motion by normal_distribution')
 plt.show()
 
 
+# downward trend
+plot_stock_price(mu = 0.2, sigma = 0.7)
+# neutral trend
+plot_stock_price(mu = 0.2, sigma = 0.65)
+# positive trend
+plot_stock_price(mu = 0.2, sigma = 0.6)
+
+# part 2
+# 2D plot
+
+b1 = Brownian()
+b2 = Brownian()
+x = b1.gen_normal(50)
+y = b2.gen_normal(50)
+
 plt.figure()
+plt.plot(x, y, c = 'b')
+xmax, xmin, ymax, ymin = x.max(), x.min(), y.max(), y.min()
+scale_factor = 1.25
+xmax, xmin, ymax, ymin = xmax * scale_factor, xmin * scale_factor, ymax * scale_factor, ymin * scale_factor
+plt.xlim(xmin,xmax)
+plt.ylim(ymin,ymax)
+plt.title("Particle in the fluid medium goes through.")
+plt.show()
