@@ -1,6 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+def calc_msd(sample_diff):
+    return np.sum((np.diff(sample_diff)) ** 2)
+
+
+
 class Brownian():
     def __init__(self, x0=0):
         assert (type(x0) == float or type(x0) == int or x0 is None), "Expect a float or None for the initial value"
@@ -98,17 +104,26 @@ def plot_stock_price(mu, sigma):
 b = Brownian()
 
 # generation motion by random_walk
-
+myW = b.gen_random_walk(15000)
 plt.figure()
-for i in range(5):
-    plt.plot(b.gen_random_walk(1000))
+#for i in range(1):
+#    plt.plot(b.gen_random_walk(5000))
+plt.plot(myW)
 plt.title('generation motion by random_walk')
 plt.show()
 
-# generation motion     by normal_distribution
+myWmsd = np.ones(14999)
 plt.figure()
+for i in range(1, 14999):
+    myWmsd[i-1] = calc_msd(myW[:i])
+plt.plot(myWmsd)
+plt.yscale('log')
+plt.xscale('log')
+plt.show()
+# generation motion     by normal_distribution
+'''plt.figure()
 for i in range(5):
-    plt.plot(b.gen_normal(1000))
+    plt.plot(b.gen_normal(5000))
 plt.title('generation motion by normal_distribution')
 plt.show()
 
@@ -125,8 +140,8 @@ plot_stock_price(mu = 0.2, sigma = 0.6)
 
 b1 = Brownian()
 b2 = Brownian()
-x = b1.gen_normal(50)
-y = b2.gen_normal(50)
+x = b1.gen_normal(100)
+y = b2.gen_normal(100)
 
 plt.figure()
 plt.plot(x, y, c = 'b')
@@ -137,3 +152,4 @@ plt.xlim(xmin,xmax)
 plt.ylim(ymin,ymax)
 plt.title("Particle in the fluid medium goes through.")
 plt.show()
+'''
