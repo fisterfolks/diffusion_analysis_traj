@@ -2,10 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def calc_msd(sample_diff):
-    return np.sum((np.diff(sample_diff)) ** 2)
-
-
+def calc_msd_correct(right, left):
+    return (right - left) ** 2
 
 class Brownian():
     def __init__(self, x0=0):
@@ -102,30 +100,26 @@ def plot_stock_price(mu, sigma):
 # part 1
 # 1D
 b = Brownian()
+#b_2 = Brownian()
+size = 100000
+size1 = 100
+myarray = np.zeros((size1, size))
+myWmsd = np.zeros((size1, size-1))
+for i in range(myarray.shape[0]):
+    myarray[i] = b.gen_normal(size)
 
-# generation motion by random_walk
-myW = b.gen_random_walk(15000)
-plt.figure()
-#for i in range(1):
-#    plt.plot(b.gen_random_walk(5000))
-plt.plot(myW)
-plt.title('generation motion by random_walk')
-plt.show()
+for i in range(myWmsd.shape[0]):
+    for j in range(myWmsd.shape[1]):
+        myWmsd[i][j] = calc_msd_correct(myarray[i][j], myarray[i][0])
 
-myWmsd = np.ones(14999)
-plt.figure()
-for i in range(1, 14999):
-    myWmsd[i-1] = calc_msd(myW[:i])
-plt.plot(myWmsd)
+itog =  np.mean(myWmsd, axis=0)
+plt.plot(np.linspace(0, 1, size-1), itog)
+#plt.plot(myWmsd_2)
 plt.yscale('log')
 plt.xscale('log')
+plt.title('MSD(t) for Brownian Motion')
 plt.show()
-# generation motion     by normal_distribution
-'''plt.figure()
-for i in range(5):
-    plt.plot(b.gen_normal(5000))
-plt.title('generation motion by normal_distribution')
-plt.show()
+
 
 
 # downward trend
@@ -152,4 +146,4 @@ plt.xlim(xmin,xmax)
 plt.ylim(ymin,ymax)
 plt.title("Particle in the fluid medium goes through.")
 plt.show()
-'''
+
