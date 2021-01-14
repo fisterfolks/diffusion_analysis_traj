@@ -1,14 +1,15 @@
+#import libraries
 from fbm import FBM
 import numpy as np
 import matplotlib.pyplot as plt
-
+import datetime
 
 def calc_msd_correct(right, left):
     return (right - left) ** 2
 
 iterations = 100
 
-size = 100000
+size = 5000
 size1 = 20                              # how much particles we have
 myarray = np.zeros((size1, size))
 myarray2 = np.zeros((size1, size))
@@ -26,8 +27,16 @@ for i in range(myarray.shape[0]):
 plt.figure()
 plt.plot(np.linspace(0, 1, size), myarray[0])
 plt.plot(np.linspace(0, 1, size), myarray2[0])
+plt.title('fBM particles')
 plt.show()
 
+print('save trajectories')
+#np.savetxt()
+
+np.savetxt(f'C:\\Users\\arsayder\\PycharmProjects\\diff_masters\\samples\\' + str(datetime.datetime.now()).replace(' ', '').replace(':', '').replace('.', '') +'.txt', myarray[0])
+np.savetxt(f'C:\\Users\\arsayder\\PycharmProjects\\diff_masters\\samples\\' + str(datetime.datetime.now()).replace(' ', '').replace(':', '').replace('.', '') +'_2.txt', myarray[1])
+#np.savetxt(f'/samples/fbm' + str(datetime.datetime.now()).replace(' ', '') +'.txt', myarray[0])
+#np.savetxt(f'/samples/fbm' + str(datetime.datetime.now()).replace(' ', '') +'2.txt', myarray2[0])
 
 for i in range(myWmsd.shape[0]):
     for j in range(myWmsd.shape[1]):
@@ -77,6 +86,7 @@ for i in range(myarray_exp.shape[0]):
 
 
 plt.figure()
+plt.title('experiments with changed hurst coeff')
 plt.plot(np.linspace(0, 1, size), myarray_exp[0])
 #plt.plot(np.linspace(0, 1, size), myarray2_exp[0])
 plt.show()
@@ -96,8 +106,10 @@ plt.figure()
 plt.plot(np.linspace(0, 1, size-1), itog_exp)
 plt.yscale('log')
 plt.xscale('log')
-plt.title('MSD(t) for fBM')
+plt.title('MSD - experiments with changed hurst coeff')
 plt.show()
+
+
 '''
 plt.figure()
 plt.plot(t_values, fbm_sample, label = f'h = {f.hurst}')
