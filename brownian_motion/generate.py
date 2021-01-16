@@ -95,13 +95,13 @@ def plot_stock_price(mu, sigma):
     plt.title("Stock price simulation")
     plt.show()
 
-
+print('start')
 
 # part 1
 # 1D
 b = Brownian()
 #b_2 = Brownian()
-size = 100000
+size = 1000
 size1 = 100
 myarray = np.zeros((size1, size))
 myWmsd = np.zeros((size1, size-1))
